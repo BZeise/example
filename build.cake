@@ -5,6 +5,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+DirectoryPath   solutionDir = MakeAbsolute(Directory("./"));
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -57,11 +58,25 @@ Task("Run-Unit-Tests")
         });
 });
 
+Task("runTestBat")
+    .Does(() => {
+        runTestBat();
+    });
+
+private void runTestBat() {
+    StartProcess("./argTest.bat", new ProcessSettings {
+        Arguments = new ProcessArgumentBuilder()
+            .Append(@"status extra otherStuff"),
+        WorkingDirectory = solutionDir
+        });
+}
+
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
+  .IsDependentOn("runTestBat")
   .Does(() =>
 {
   Information("Hello World!");
