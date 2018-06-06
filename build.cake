@@ -7,6 +7,10 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 DirectoryPath   solutionDir = MakeAbsolute(Directory("./"));
 
+var firstArg = Argument("firstArg", "myFirstValue");
+var secondArg = Argument("secondArg", "mysecondValue");
+var thirdArg = Argument("thirdArg", "mythirdValue");
+
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
@@ -66,7 +70,9 @@ Task("runTestBat")
 private void runTestBat() {
     StartProcess("./argTest.bat", new ProcessSettings {
         Arguments = new ProcessArgumentBuilder()
-            .Append(@"status extra otherStuff"),
+            .Append(firstArg)
+            .Append(secondArg)
+            .Append(thirdArg),
         WorkingDirectory = solutionDir
         });
 }
